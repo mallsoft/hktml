@@ -5,49 +5,10 @@
     return;
   }
 
-  const _styleSheetKey = `ezpez-${Math.random()
+  const _styleSheetKey = `ez-${Math.random()
     .toString(36)
     .substring(2)
     .slice(-5)}`;
-
-  const style = `
-    .${_styleSheetKey} {
-
-      font-family: sans-serif;
-      color: #313131;
-    
-      section {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5em;
-        max-width: 35ch;
-      }
-    
-      input,button,textarea {
-        font: inherit;
-        color: inherit;
-      }
-    
-      & > button {
-        margin-top: 2em;
-      }
-    
-      [data-bind]:empty {
-        display: none;
-      }
-    }
-    .debug-${_styleSheetKey}{
-      position:fixed;
-      top: 0;
-      right: 0;
-      z-index: 0;
-      padding: 1em;
-      margin: .5em;
-      background-color: black;
-      color: white;
-      border: 1px solid gray;
-    }
-  `;
 
   if (form.attributes["debug"] !== undefined) {
     console.warn("Form debug enabled");
@@ -88,11 +49,6 @@
     }, {});
   };
 
-  const stylesheet = document.createElement("style");
-  stylesheet.textContent = style;
-  form.classList.add(_styleSheetKey);
-  form.append(stylesheet);
-
   const inputs = [...form.elements].filter(({ name }) => name?.length);
   const inputsNames = inputs.map(({ name }) => name);
   const bindings = new Map();
@@ -126,4 +82,53 @@
   form.addEventListener("submit", (ev) => {
     ev.preventDefault();
   });
+
+  const style = `
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .${_styleSheetKey} {
+    [spin]{
+      animation: spin 2s linear infinite; 
+    }
+    font-family: sans-serif;
+    color: #313131;
+    section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      max-width: 35ch;
+    }
+    input,button,textarea {
+      font: inherit;
+      color: inherit;
+    }
+    & > button {
+      margin-top: 2em;
+    }
+    [data-bind]:empty {
+      display: none;
+    }
+  }
+  .debug-${_styleSheetKey}{
+    position:fixed;
+    top: 0;
+    right: 0;
+    z-index: 0;
+    padding: 1em;
+    margin: .5em;
+    background-color: black;
+    color: white;
+    border: 1px solid gray;
+  }
+`;
+  const stylesheet = document.createElement("style");
+  stylesheet.textContent = style;
+  form.classList.add(_styleSheetKey);
+  form.append(stylesheet);
 })();

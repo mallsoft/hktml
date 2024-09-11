@@ -18,14 +18,7 @@
     form.insertBefore(pre, document.currentScript);
 
     form.addEventListener("dataupdate", ({ detail }) => {
-      pre.textContent = JSON.stringify(
-        {
-          keys: inputsNames,
-          data: prettyForm(form),
-        },
-        null,
-        2
-      );
+      pre.textContent = JSON.stringify(prettyForm(form), null, 2);
     });
   }
 
@@ -62,7 +55,8 @@
   const syncBindings = () => {
     bindings.forEach((nodes) => {
       nodes.forEach((node) => {
-        node.textContent = form.elements[node.dataset.bind]?.value || "";
+        node.textContent =
+          form.elements[node.getAttribute("waffel-bind")]?.value || "";
       });
     });
 
@@ -84,29 +78,16 @@
   });
 
   const style = `
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
   .${_styleSheetKey} {
-    [spin]{
-      animation: spin 2s linear infinite; 
-    }
     font-family: sans-serif;
     color: #313131;
     section {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5em;
       max-width: 35ch;
     }
     input,button,textarea {
       font: inherit;
       color: inherit;
+      margin-bottom: .5em;
     }
     & > button {
       margin-top: 2em;
@@ -114,7 +95,20 @@
     [data-bind]:empty {
       display: none;
     }
+
+    fieldset{
+      border: .1rem solid #cdcdcd;
+      border-radius: 4px;
+    }
+
+    input[type="text"],textarea{
+      background-color: aliceblue;
+      border: .1rem solid black;
+      border-radius: 4px;
+      padding: .25em .5em;
+    }
   }
+  
   .debug-${_styleSheetKey}{
     position:fixed;
     top: 0;

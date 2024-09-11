@@ -6,7 +6,7 @@
     <title>Document</title>
   </head>
   <body>
-    <form>
+    <form debug>
       <h1>You probably don't need react</h1>
 
       <h2 debug>
@@ -14,13 +14,26 @@
         <span data-bind="name.last" />
       </h2>
 
-      <section>
-        <label for="name.first" data-bind="name.first"></label>
-        <input type="text" name="name.first" required />
+      <label for="name.first">First name</label>
+      <input type="text" name="name.first" required />
 
-        <label for="name.last" data-bind="name.last"></label>
-        <input type="text" name="name.last" required />
-      </section>
+      <label for="name.last">Last name</label>
+      <input type="text" name="name.last" required />
+
+      <fieldset>
+        <legend>Telephone</legend>
+
+        <label for="phone.countrycode">Country code</label>
+        <input
+          type="text"
+          name="phone.countrycode"
+          pattern="(\d\s?){2}"
+          required
+        />
+
+        <label for="phone.number">Phonenumber</label>
+        <input type="text" name="phone.number" pattern="(\d\s?){8}" required />
+      </fieldset>
 
       <button type="reset">Empty form</button>
       <button type="submit">Submit form</button>
